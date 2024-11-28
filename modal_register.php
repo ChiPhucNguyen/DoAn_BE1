@@ -107,6 +107,7 @@
     // Truyền biến PHP sang JavaScript
     const errorMessage = <?= json_encode($errorMessage ?? '') ?>;
     const successMessage = <?= json_encode($successMessage ?? '') ?>;
+    const loginErrorMessage = <?= json_encode($loginErrorMessage ?? '') ?>;
 
     document.addEventListener("DOMContentLoaded", function () {
         if (errorMessage) {
@@ -116,6 +117,7 @@
             modal.show();
             // Hiển thị thông báo lỗi
             document.getElementById('register-message').textContent = errorMessage;
+
         } else if (successMessage) {
             console.log('Success Message:', successMessage); // Debugging
             // Hiển thị modal nếu thành công
@@ -123,6 +125,14 @@
             modal.show();
             // Hiển thị thông báo thành công
             document.getElementById('login-message').textContent = successMessage;
+        }
+        else   if (loginErrorMessage) {
+            console.log('Error Message:', loginErrorMessage); // Debugging
+            // Hiển thị modal nếu có lỗi
+            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+            modal.show();
+            // Hiển thị thông báo lỗi
+            document.getElementById('login-message').textContent = loginErrorMessage;
         }
     });
 </script>

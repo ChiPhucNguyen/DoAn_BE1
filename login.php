@@ -7,7 +7,7 @@
         require_once 'function.php';
         $username = $_POST['username'];
         $password = $_POST['password'];
-        $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        $referer = $_SERVER['HTTP_REFERER'] ?? "index.php";
 
         //$password = password_hash($password, PASSWORD_BCRYPT);
 
@@ -19,12 +19,12 @@
         if($user != null) {
             $_SESSION['user_id'] = $user['user_id']; // ID của người dùng từ cơ sở dữ liệu
             $_SESSION['username'] = $user['username']; // Tên đăng nhập
-            if(checkUserCart($user['user_id'])) {
+            if(!checkUserCart($user['user_id'])) {
                createUserCart($user['user_id']);
             }
-            redirectWithMessage($referer, 'loginSuccess', 'Đăng nhập thành công' . $user['username']);
+            header("Location: {$referer}");
         } else {
-            redirectWithMessage($referer, 'loginError', 'Đăng nhập thất bại');
+            redirectWithMessage($referer, 'loginError', 'Đăng nhập thất bại. Sai tài khoản hoặc mật khẩu');
         }
     }
 ?>
