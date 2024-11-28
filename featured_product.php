@@ -35,7 +35,7 @@
                         echo <<<HTML
                         <div class="col-lg-3 col-md-4 col-sm-6 mix oranges category-{$product['category_id']}">
                             <div class="featured__item">
-                                <div class="featured__item__pic set-bg" data-setbg="img/featured/feature-1.jpg">
+                                <div class="featured__item__pic set-bg" data-setbg="{$product['img_url']}">
                                     <ul class="featured__item__pic__hover">
                                         <li><a href="./addCart.php?productId={$product['product_id']}&quantity=1"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>

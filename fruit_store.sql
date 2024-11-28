@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 27, 2024 lúc 06:39 PM
+-- Thời gian đã tạo: Th10 28, 2024 lúc 05:48 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -76,18 +76,18 @@ CREATE TABLE `categories` (
   `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
-  `img` varchar(255) DEFAULT NULL COMMENT 'Hình ảnh '
+  `img_url` varchar(255) DEFAULT NULL COMMENT 'Hình ảnh '
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `categories`
 --
 
-INSERT INTO `categories` (`category_id`, `name`, `description`, `created_at`, `img`) VALUES
-(1, 'Trái cây', 'Các loại trái cây tươi ngon từ các vùng miền Việt Nam', '2024-11-26 13:18:15', NULL),
-(2, 'Rau củ', 'Rau củ', '2024-11-26 13:18:15', NULL),
-(3, 'Hải sản', 'Hải sản', '2024-11-26 13:56:39', NULL),
-(5, 'Fastfood', 'Thức ăn nhanh', '2024-11-26 13:57:46', NULL);
+INSERT INTO `categories` (`category_id`, `name`, `description`, `created_at`, `img_url`) VALUES
+(1, 'Trái cây', 'Các loại trái cây tươi ngon từ các vùng miền Việt Nam', '2024-11-26 13:18:15', './img/categories/cat-1.jpg'),
+(2, 'Rau củ', 'Rau củ', '2024-11-26 13:18:15', './img/categories/cat-3.jpg'),
+(3, 'Thịt bò', 'Thịt bò', '2024-11-26 13:56:39', './img/categories/cat-5.jpg'),
+(5, 'Fastfood', 'Thức ăn nhanh', '2024-11-26 13:57:46', './img/product/product-5.jpg');
 
 -- --------------------------------------------------------
 
@@ -147,7 +147,7 @@ CREATE TABLE `products` (
   `views` int(11) DEFAULT 0,
   `sold` int(11) DEFAULT 0,
   `category_id` int(11) DEFAULT NULL,
-  `image_url` varchar(255) DEFAULT NULL,
+  `img_url` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -155,13 +155,13 @@ CREATE TABLE `products` (
 -- Đang đổ dữ liệu cho bảng `products`
 --
 
-INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `stock`, `views`, `sold`, `category_id`, `image_url`, `created_at`) VALUES
-(1, 'Cam Sành Hà Giang', 'Cam sành tươi ngon được trồng tại Hà Giang', 30000.00, 100, 500, 200, 1, 'https://example.com/images/cam_sanh.jpg', '2024-11-26 13:18:16'),
-(2, 'Bưởi Diễn', 'Bưởi Diễn thơm ngọt, vỏ mỏng', 40000.00, 150, 400, 120, 1, 'https://example.com/images/buoi_dien.jpg', '2024-11-26 13:18:16'),
-(3, 'Táo Mỹ', 'Táo đỏ giòn ngọt nhập khẩu từ Mỹ', 70000.00, 80, 600, 300, 2, 'https://example.com/images/tao_my.jpg', '2024-11-26 13:18:16'),
-(4, 'Nho Úc', 'Nho xanh không hạt, ngọt và mọng nước', 120000.00, 50, 700, 250, 2, 'https://example.com/images/nho_uc.jpg', '2024-11-26 13:18:16'),
-(5, 'Xoài Cát Hòa Lộc', 'Xoài cát thơm ngọt nổi tiếng từ miền Tây', 60000.00, 200, 800, 400, 1, 'https://example.com/images/xoai_cat.jpg', '2024-11-26 13:18:16'),
-(6, 'Lê Hàn Quốc', 'Lê ngọt mát, nhập khẩu từ Hàn Quốc', 80000.00, 70, 300, 100, 2, 'https://example.com/images/le_han_quoc.jpg', '2024-11-26 13:18:16');
+INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `stock`, `views`, `sold`, `category_id`, `img_url`, `created_at`) VALUES
+(1, 'Ổi đỏ Việt Nam', 'Ổi đỏ được trồng tại Việt Nam', 30000.00, 100, 500, 200, 1, './img/product/product-3.jpg', '2024-11-26 13:18:16'),
+(2, 'Gà rán ', 'Gàn rán giòn tan', 40000.00, 150, 400, 120, 5, './img/product/product-10.jpg', '2024-11-26 13:18:16'),
+(3, 'Táo Mỹ', 'Táo đỏ giòn ngọt nhập khẩu từ Mỹ', 70000.00, 80, 600, 300, 1, './img/product/product-8.jpg', '2024-11-26 13:18:16'),
+(4, 'Nho Úc', 'Nho xanh không hạt, ngọt và mọng nước', 120000.00, 50, 700, 250, 1, './img/product/product-4.jpg', '2024-11-26 13:18:16'),
+(5, 'Xoài Cát Hòa Lộc', 'Xoài cát thơm ngọt nổi tiếng từ miền Tây', 60000.00, 200, 800, 400, 1, './img/product/product-6.jpg', '2024-11-26 13:18:16'),
+(6, 'Thịt bò', 'Thịt bò Mỹ', 80000.00, 70, 300, 100, 3, './img/product/product-1.jpg', '2024-11-26 13:18:16');
 
 -- --------------------------------------------------------
 

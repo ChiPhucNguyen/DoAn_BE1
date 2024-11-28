@@ -19,7 +19,7 @@
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
                             <img class="product__details__pic__item--large"
-                                src="img/product/details/product-details-1.jpg" alt="">
+                                src="{$product['img_url']}" alt="">
                         </div>
                     </div>
                 </div>

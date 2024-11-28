@@ -26,7 +26,7 @@
                                             echo <<<HTML
                                                 <tr>
                                                     <td class="shoping__cart__item">
-                                                        <img src="img/cart/cart-1.jpg" alt="">
+                                                        <img src="{$cart['img_url']}" alt="">
                                                         <h5>{$cart['name']}</h5>
                                                     </td>
                                                     <td class="shoping__cart__price">
