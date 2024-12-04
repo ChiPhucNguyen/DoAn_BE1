@@ -1,5 +1,9 @@
   <?php
-    require_once "function.php";
+    require_once './models/CategoryModel.php';
+    $start = 0;
+    $limit = 4;
+    $categoryModel = new CategoryModel();
+    $categories = $categoryModel->getCategories($start, $limit);
   ?>
   <!-- Categories Section Begin -->
   <section class="categories">
@@ -7,9 +11,6 @@
             <div class="row">
                 <div class="categories__slider owl-carousel">
                     <?php
-                        $start = 0;
-                        $limit = 4;
-                        $categories = getCategories($start, $limit);
                         foreach($categories as $category)
                         {
                             echo <<<HTML

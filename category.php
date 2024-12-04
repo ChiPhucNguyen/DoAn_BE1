@@ -2,7 +2,9 @@
 
 <?php 
     include "header.php";
-    require_once "function.php"
+    require_once './models/ProductModel.php';
+    require_once './models/PaginationModel.php';
+
 ?>
 <?php include "hero.php" ?>
 
@@ -12,7 +14,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-5">
-              <?php include "sidebar.php"?>
+              <?php
+                ob_start(); // Bắt đầu bộ đệm
+                include "sidebar.php"; // Gọi sidebar
+                $sidebarContent = ob_get_clean(); // Lấy nội dung đã đệm và xóa bộ đệm
+              ?>
             </div>
             <div class="col-lg-9 col-md-7">
                 <div class="filter__item">
@@ -32,14 +38,20 @@
                                 <?php
                                 if(isset($_GET['categoryId']))
                                 {
+                                    $productModel = new ProductModel();
+                                    $paginationModel = new PaginationModel();
+                            
                                     $categoryId = $_GET['categoryId'] > 0 ? $_GET['categoryId'] : 1;
                                     $page = isset($_GET['page']) && $_GET['page']> 0 ? $_GET['page'] : 1;
                                     $limit = 1;
-                                    $getProducts = getProductsByCategory($categoryId, $page, $limit);
+                                    
+                                    $getProducts = $productModel->getProductsByCategory($categoryId, $page, $limit);
+                                    
                                     $products = $getProducts['items'];
                                     $total = $getProducts['total'];
+       
                                     echo  "<h6><span>{$total}</span> sản phẩm được tìm thấy</h6>";
-                                }1
+                                }
                                 ?>
                                
                             </div>
@@ -84,7 +96,7 @@
                      if(isset($_GET['categoryId']))
                      {
                         $page = isset($_GET['page']) && $_GET['page'] > 0 ? $_GET['page'] : 1;    
-                        echo print_paginate("./category.php?categoryId={$categoryId}", $total, $limit, $page, 2);
+                        $paginationModel->print_paginate("./category.php?categoryId={$categoryId}", $total, $limit, $page, 2);
                      }
                 ?>
             </div>

@@ -2,7 +2,6 @@
 
 <?php 
     include "header.php";
-    require_once "function.php"
 ?>
     <!-- Hero Section Begin -->
     <?php include "hero.php" ?>
@@ -37,7 +36,8 @@
                                     $keyword = $_GET['keyword'];
                                     $page = isset($_GET['page']) && $_GET['page']> 0 ? $_GET['page'] : 1;
                                     $limit = 1;
-                                    $getProducts = getProductsByKeyword($keyword, $page, $limit);
+                                    $productModel = new ProductModel();
+                                    $getProducts = $productModel->getProductsByKeyword($keyword, $page, $limit);
                                     $products = $getProducts['items'];
                                     $total = $getProducts['total'];
                                     echo  "<h6><span>{$total}</span> sản phẩm được tìm thấy</h6>";
@@ -85,8 +85,9 @@
                 <?php
                     if(isset($_GET['keyword']))
                     {
-                        $page = isset($_GET['page']) && $_GET['page'] > 0 ? $_GET['page'] : 1;    
-                        echo print_paginate("./search.php?keyword={$keyword}", $total, $limit, $page, 2);
+                        $page = isset($_GET['page']) && $_GET['page'] > 0 ? $_GET['page'] : 1; 
+                        $paginationModel = new PaginationModel();   
+                        $paginationModel->print_paginate("./search.php?keyword={$keyword}", $total, $limit, $page, 2);
                     }
                 ?>
             </div>

@@ -1,3 +1,8 @@
+<?php
+    require_once './models/CategoryModel.php';
+    $categoryModel = new CategoryModel();
+    $categories = $categoryModel->getAllCategories();
+?>
 <div class="hero__categories">
 <div class="hero__categories__all">
         <i class="fa fa-bars"></i>
@@ -5,7 +10,6 @@
     </div>
     <ul>
         <?php
-            $categories = getAllCategories();
             foreach($categories as $item)
             {
                 echo <<<HTML

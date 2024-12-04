@@ -13,16 +13,6 @@
         
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <?php
-                    if(isset($loginErrorMessage)) 
-                    {
-                        echo ' <div class="alert alert-danger text-center" role="alert" id="login-message">Error </div>';
-                    }
-                    else if(isset($successMessage))
-                    {
-                        echo ' <div class="alert alert-success text-center" role="alert" id="login-message">Success </div>';
-                    }
-                ?>
                 <div class="modal-header">
                     <h5 class="modal-title" id="loginModalLabel">Đăng nhập</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>

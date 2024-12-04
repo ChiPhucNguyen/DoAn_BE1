@@ -1,5 +1,14 @@
    <?php 
-    require_once "function.php"
+    require_once './models/ProductModel.php';
+    require_once './models/CategoryModel.php';
+    $productModel = new ProductModel();
+    $categoryModel = new CategoryModel();
+
+    $start = 1;
+    $limit = 10;
+
+    $categories = $categoryModel->getAllCategories();
+    $products = $productModel->getProducts($start, $limit);
    ?>
    <!-- Featured Section Begin -->
    <section class="featured spad">
@@ -13,7 +22,7 @@
                         <ul>
                             <li class="active" data-filter="*">All</li>
                             <?php
-                                $categories = getAllCategories();
+                              
                                 foreach($categories as $category)
                                 {
                                     echo <<<HTML
@@ -27,9 +36,6 @@
             </div>
             <div class="row featured__filter">
                 <?php
-                    $start = 1;
-                    $limit = 10;
-                    $products = getProducts($start, $limit);
                     foreach($products as $product)
                     {
                         echo <<<HTML

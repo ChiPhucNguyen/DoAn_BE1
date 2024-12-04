@@ -1,4 +1,19 @@
-  <!-- Shoping Cart Section Begin -->
+ <?php
+    require_once './models/CartModel.php';
+    require_once './models/UserModel.php';
+    $cartModel = new CartModel();
+    $userModel = new UserModel();
+    $isLoggedIn = $userModel->isUserLoggedIn();
+    $carts = null;
+    if($isLoggedIn)
+    {
+        $userId = $_SESSION['user_id'];
+        $carts = $cartModel->getCartItemByUserId($userId);
+    }
+
+
+ ?>
+ <!-- Shoping Cart Section Begin -->
   <section class="shoping-cart spad">
         <div class="container">
             <div class="row">
@@ -16,10 +31,8 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    if(isset($_SESSION['user_id']))
+                                    if($isLoggedIn)
                                     {
-                                        $userId = $_SESSION['user_id'];
-                                        $carts = getCartItemByUserId($userId);
                                         foreach($carts as $cart)
                                         {
                                             $totalPriceItem = $cart['price'] * $cart['quantity'];

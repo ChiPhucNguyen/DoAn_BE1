@@ -1,27 +1,49 @@
-<?php
+    <?php
     session_start();
-    if($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        redirectWithMessage($_SERVER['HTTP_REFERER'], 'registerError', 'Phương thức không được hỗ trợ');
+    require_once './models/UserModel.php';
+    require_once 'function.php';
+
+    $userModel = new UserModel();
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        handleError('Phương thức không được hỗ trợ');
     }
-    if(isset($_POST['username']) && isset($_POST['password']) && isset($_POST['repeatPassword'])) {
-        require_once 'function.php';
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $repeatPassword = $_POST['repeatPassword'];
+
+    $username = $_POST['username'] ?? null;
+    $password = $_POST['password'] ?? null;
+    $repeatPassword = $_POST['repeatPassword'] ?? null;
+
+    if (!$username || !$password || !$repeatPassword) {
+        handleError('Vui lòng điền đầy đủ thông tin');
+    }
+
+    if ($password !== $repeatPassword) {
+        handleError('Mật khẩu không khớp');
+    }
+
+    if ($userModel->checkUsernameAvailability($username)) {
+        handleError('Tên đăng nhập đã tồn tại');
+    }
+
+    // $password = password_hash($password, PASSWORD_BCRYPT);
+
+    if ($userModel->registerUsers($username, $password)) {
+        handleSuccess('Đăng ký thành công');
+    } else {
+        handleError('Đăng ký thất bại');
+    }
+
+    function handleError($message) {
+        global $userModel;
         $referer = $_SERVER['HTTP_REFERER'] ?? null;
-        if($password != $repeatPassword) {
-           redirectWithMessage($referer, 'registerError', 'Mật khẩu không khớp');
-        }
-        if(checkUsernameAvailability($username)) {
-            redirectWithMessage($referer, 'registerError', 'Tên đăng nhập đã tồn tại');
-        }
+        $userModel->redirectWithMessage($referer, 'registerError', $message);
+        exit();
+    }
 
-        //$password = password_hash($password, PASSWORD_BCRYPT);
-
-        if(registerUsers($username, $password)) {
-            redirectWithMessage($referer, 'registerSuccess', 'Đăng ký thành công');
-        } else {
-            redirectWithMessage($referer, 'registerError', 'Đăng ký thất bại');
-        }
+    function handleSuccess($message) {
+        global $userModel;
+        $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        $userModel->redirectWithMessage($referer, 'registerSuccess', $message);
+        exit();
     }
 ?>

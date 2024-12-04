@@ -1,6 +1,11 @@
 <?php
     session_start();
-    require_once "function.php"
+    require_once "./models/UserModel.php";
+    $userModel = new UserModel();
+
+    $isLoggedIn = $userModel->isUserLoggedIn();
+    $username = $userModel->getUsername();
+    $totalCartItems = $isLoggedIn ? $userModel->getTotalUserCartItems($_SESSION['user_id']) : 0;
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -119,15 +124,11 @@
                     <div class="header__cart">
                         <ul>
                             <?php
-                                if(isset($_SESSION['user_id']))
-                                {
-                                    $totalCartItems = getTotalUserCartItems($_SESSION['user_id']);
+                                if ($isLoggedIn) {
                                     echo   <<<HTML
                                             <li><a href="./cart.php"><i class="fa fa-shopping-bag"></i> <span>{$totalCartItems}</span></a></li>
                                            HTML;
-                                }
-                                else
-                                {
+                                } else {
                                     echo   <<<HTML
                                             <li><a href="./cart.php"><i class="fa fa-shopping-bag"></i> <span>0</span></a></li>
                                            HTML;
@@ -135,7 +136,7 @@
                             ?>
                             <li> <?php
                             
-                            if(isset($_SESSION['user_id']))
+                            if ($isLoggedIn)
                             {
                                 echo <<<HTML
                                 <li class="nav-item dropdown no-arrow">

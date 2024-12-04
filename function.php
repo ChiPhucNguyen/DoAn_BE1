@@ -204,34 +204,61 @@
     }
     function addItemToCart($userId, $productId, $quantity)
     {
-        echo "test";
         global $db;
-        $sql = "SELECT * FROM carts WHERE user_id = ?";
-        $parameters = [$userId];
-        $typeParams = "i";
-        $results = $db->getData($sql, $parameters, $typeParams);
-        $cartId = $results[0]['cart_id'];
-        echo $cartId;
-        $sql = "SELECT * FROM cart_items WHERE cart_id = ? AND product_id = ?";
-        $parameters = [$cartId, $productId];
-        $typeParams = "ii";
-        $results = $db->getData($sql, $parameters, $typeParams);
-        if(count($results) > 0)
-        {
-            echo $cartId;
-            echo $quantity;
-            echo $productId;
-            $sql = "UPDATE cart_items SET quantity = quantity + ? WHERE cart_id = ? AND product_id = ?";
-            $parameters = [$quantity, $cartId, $productId];
-            $typeParams = "iii";
-            return $db->executeData($sql, $parameters, $typeParams);
+    
+        // Lấy cart_id của người dùng
+        $cartId = getUserCartId($userId);
+        if (!$cartId) {
+            // Nếu người dùng chưa có giỏ hàng, tạo mới giỏ hàng
+            $cartId = createUserCart($userId);
         }
-        echo "test2";
-        $sql = "INSERT INTO cart_items(cart_id, product_id, quantity) VALUES(?, ?, ?)";
-        $parameters = [$cartId, $productId, $quantity];
+    
+        // Kiểm tra nếu sản phẩm đã có trong giỏ hàng
+        if (isProductInCart($cartId, $productId)) {
+            return updateProductQuantity($cartId, $productId, $quantity);
+        }
+    
+        // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới
+        return addProductToCart($cartId, $productId, $quantity);
+    }
+    
+    function getUserCartId($userId)
+    {
+        global $db;
+        $sql = "SELECT cart_id FROM carts WHERE user_id = ?";
+        $params = [$userId];
+        $typeParams = "i";
+        $results = $db->getData($sql, $params, $typeParams);
+        return $results ? $results[0]['cart_id'] : null;
+    }
+    
+    
+    function isProductInCart($cartId, $productId)
+    {
+        global $db;
+        $sql = "SELECT * FROM cart_items WHERE cart_id = ? AND product_id = ?";
+        $params = [$cartId, $productId];
+        $typeParams = "ii";
+        $results = $db->getData($sql, $params, $typeParams);
+        return count($results) > 0;
+    }
+    
+    function updateProductQuantity($cartId, $productId, $quantity)
+    {
+        global $db;
+        $sql = "UPDATE cart_items SET quantity = quantity + ? WHERE cart_id = ? AND product_id = ?";
+        $params = [$quantity, $cartId, $productId];
         $typeParams = "iii";
-        echo "test";
-        return $db->executeData($sql, $parameters, $typeParams);
+        return $db->executeData($sql, $params, $typeParams);
+    }
+    
+     function addProductToCart($cartId, $productId, $quantity)
+    {
+        global $db;
+        $sql = "INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)";
+        $params = [$cartId, $productId, $quantity];
+        $typeParams = "iii";
+        return $db->executeData($sql, $params, $typeParams);
     }
     function removeItemFromCart($userId, $productId)
     {

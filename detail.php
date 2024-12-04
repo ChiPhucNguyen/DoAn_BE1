@@ -1,15 +1,20 @@
 <?php
     include "header.php";
     include "hero.php";
+    require_once './models/ProductModel.php';
+    $productModel = new ProductModel();
+    if(isset($_GET['productId']) && (int)$_GET['productId'] > 0)
+    {
+        $productsId = (int)$_GET['productId'];
+        $product = $productModel->getProductsById($productsId);
+        if($product == null) return;
+        $product = $product[0];
+    }
 
 ?>
     <?php
     if(isset($_GET['productId']) && (int)$_GET['productId'] > 0)
     {
-        $productsId = (int)$_GET['productId'];
-        $product = getProductsById($productsId);
-        if($product == null) return;
-        $product = $product[0];
         echo <<<HTML
         <!-- Product Details Section Begin -->
         <section class="product-details spad">
