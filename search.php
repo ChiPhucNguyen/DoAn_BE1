@@ -2,6 +2,7 @@
 
 <?php 
     include "header.php";
+    require_once "models/PaginationModel.php";
 ?>
     <!-- Hero Section Begin -->
     <?php include "hero.php" ?>

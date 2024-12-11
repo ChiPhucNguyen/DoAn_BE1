@@ -14,6 +14,7 @@
         $referer = $_SERVER['HTTP_REFERER'] ?? "index.php";
         if($userModel->isUserLoggedIn() === false) {
             $userModel->redirectWithMessage($referer, 'loginError', 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng');
+            return;
         }
         $userid = $_SESSION['user_id'];
         $cartModel->addItemToCart($userid ,$product_id, $quantity);

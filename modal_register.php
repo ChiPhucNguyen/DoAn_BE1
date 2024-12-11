@@ -103,6 +103,7 @@
 
     });
 </script>
+
 <script>
     // Truyền biến PHP sang JavaScript
     const errorMessage = <?= json_encode($errorMessage ?? '') ?>;
