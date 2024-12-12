@@ -1,7 +1,6 @@
     <?php
     session_start();
     require_once './models/UserModel.php';
-    require_once 'function.php';
 
     $userModel = new UserModel();
 
@@ -25,7 +24,7 @@
         handleError('Tên đăng nhập đã tồn tại');
     }
 
-    // $password = password_hash($password, PASSWORD_BCRYPT);
+   // $password = password_hash($password, PASSWORD_BCRYPT);
 
     if ($userModel->registerUsers($username, $password)) {
         handleSuccess('Đăng ký thành công');

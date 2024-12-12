@@ -35,11 +35,11 @@
                             echo <<<HTML
                                 <a href="./detail.php?productId={$product['product_id']}" class="latest-product__item">
                                     <div class="latest-product__item__pic">
-                                        <img src="img/latest-product/lp-1.jpg" alt="">
+                                        <img src="{$product['img_url']}" alt="">
                                     </div>
                                     <div class="latest-product__item__text">
                                         <h6>{$product['name']}</h6>
-                                        <span>$ {$product['price']}</span>
+                                        <span> {$product['price']} $</span>
                                     </div>
                                  </a>
                             HTML;
