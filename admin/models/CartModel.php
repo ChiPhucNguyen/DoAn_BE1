@@ -105,7 +105,7 @@
                     JOIN users 
                         ON carts.user_id = users.user_id
                     WHERE products.name LIKE ? LIMIT ?, ?";
-            $parameters = ["%$product_name%", $page, $limit];
+            $parameters = ["%$product_name%", $offset, $limit];
             $typeParams = "s";
             $results = $this->db->getData($sql, $parameters, $typeParams);
             return [
