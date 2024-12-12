@@ -45,10 +45,25 @@ class UserModel
         return count($results) > 0;
     }
 
-    public function getAllUsers()
+    public function getAllUsers($page, $limit = 1)
     {
-        $sql = "SELECT * FROM users";
-        return $this->db->getData($sql);
+        $page = (int)$page > 0 ? (int)$page : 1;
+        $offset = ($page - 1) * $limit;
+        $total = $this->getTotalUsers();
+        $sql = "SELECT * FROM users LIMIT ?, ?";
+        $parameters = [$offset, $limit];
+        $typeParams = "ii";
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return [
+            'total' => (int)$total,
+            'items' => $results
+        ];
+    }
+    public function getTotalUsers()
+    {
+        $sql = "SELECT COUNT(*) AS total_count FROM users";
+        $results = $this->db->getData($sql);
+        return $results[0]['total_count'] ?? 0;
     }
 
     public function addUser($username, $password, $email, $phone, $address, $role)
@@ -90,12 +105,29 @@ class UserModel
         $results = $this->db->getData($sql, $parameters, $typeParams);
         return $results;
     }
-    public function searchUserByName($username)
+    public function searchUserByName($username, $page, $limit = 1)
     {
-        $sql = "SELECT * FROM users WHERE username LIKE ?";
+        $page = (int)$page > 0 ? (int)$page : 1;
+        $offset = ($page - 1) * $limit;
+        //
+        $total = $this->getTotalSearchUser($username);
+        //
+        $sql = "SELECT * FROM users WHERE username LIKE ? LIMIT ?, ?";
+        $parameters = ["%$username%", $offset, $limit];
+        $typeParams = "sii";
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return [
+            'total' => (int)$total,
+            'items' => $results
+        ];
+    }
+    public function getTotalSearchUser($username)
+    {
+        $sql = "SELECT COUNT(*) AS total_count FROM users WHERE username LIKE ?";
         $parameters = ["%$username%"];
         $typeParams = "s";
-        return $this->db->getData($sql, $parameters, $typeParams);
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return $results[0]['total_count'];
     }
     public function editUser($user_id, $username, $password, $email, $phone, $address, $role)
     {

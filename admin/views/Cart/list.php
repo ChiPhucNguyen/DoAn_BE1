@@ -18,26 +18,23 @@
             return;
         }
     }
-    if(isset($_GET['page']))
-    {
-        $page = $_GET['page'];
-    }
-    $page = isset($page) ? $page : 1;
     $limit = 1;
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
     $cartModel = new CartModel();
-    $carts = $cartModel->getItemInCart($page, $limit);
+    $carts = [];
+    $cartTotal = 0;
+
+    if (isset($_GET['search'])) {
+        $search = $_GET['search'];
+        $carts = $cartModel->searchItemInCart($search, $page, $limit);
+    } else {
+        $carts = $cartModel->getItemInCart($page, $limit);
+    }
+
     $cartTotal = $carts['total'];
     $carts = $carts['items'];
-    if($_SERVER['REQUEST_METHOD'] == 'GET')
-    {
-       
-        if(isset($_GET['search']))
-        {
-            $cartModel = new CartModel();
-            $search = $_GET['search'];
-            $carts = $cartModel->searchItemInCart($search);
-        }
-    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -148,9 +145,8 @@
                             </tbody>
                         </table>
                         <?php
-                            $offset = 4;
                             $url = $_SERVER['REQUEST_URI'];
-                            $paginationModel->print_paginate($url , $cartTotal, $limit, $page, $offset);
+                            $paginationModel->print_paginate($url , $cartTotal, $limit, $page);
                         ?>
                     </div>
                 </div>

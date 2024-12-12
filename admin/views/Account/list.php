@@ -2,6 +2,8 @@
 <?php
     session_start();
     require_once '../../models/UserModel.php';
+    require_once '../../models/PaginationModel.php';
+    $paginationModel = new PaginationModel();
     $userModel = new UserModel();
     if (!isset($_SESSION['user_id'])) {
         header("Location: ../login.php");
@@ -15,13 +17,18 @@
             return;
         }
     }
-    $users = $userModel->getAllUsers();
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        if (isset($_GET['search'])) {
-            $search = $_GET['search'];
-            $users = $userModel->searchUserByName($search);
-        }
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $limit = 1;
+    if(isset($_GET['search']))
+    {
+        $users = $userModel->searchUserByName($_GET['search'], $page, $limit);
     }
+    else
+    {
+        $users = $userModel->getAllUsers($page, $limit);
+    }
+    $userTotal = $users['total'];
+    $users = $users['items'];
 
 ?>
 <!DOCTYPE html>
@@ -137,6 +144,10 @@
                                ?>
                             </tbody>
                         </table>
+                        <?php
+                            $url = $_SERVER['REQUEST_URI'];
+                            $paginationModel->print_paginate($url, $userTotal, $limit, $page);
+                        ?>
                     </div>
                 </div>
             </div>

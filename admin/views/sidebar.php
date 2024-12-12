@@ -4,6 +4,7 @@
         exit;
     }
     require_once $_SERVER['DOCUMENT_ROOT'] . '/store/admin/models/UserModel.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/store/admin/config/config.php';
     $userModel = new UserModel();
     $user_id = $_SESSION['user_id'];
     if(!$userModel->isAdmin($user_id)) {
@@ -15,7 +16,7 @@
  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php echo BASE_URL; ?>">
     <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
     </div>
@@ -27,7 +28,7 @@
 
 <!-- Nav Item - Dashboard -->
 <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?php echo BASE_URL; ?>">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
 </li>
@@ -49,10 +50,10 @@
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="./Account/list.php">Sản phẩm</a>
-            <a class="collapse-item" href="cards.html">Giỏ hàng</a>
-            <a class="collapse-item" href="cards.html">Tài khoản</a>
-            <a class="collapse-item" href="cards.html">Category</a>
+            <a class="collapse-item" href="<?php echo BASE_URL; ?>Product/list.php">Sản phẩm</a>
+            <a class="collapse-item" href="<?php echo BASE_URL; ?>Cart/list.php">Giỏ hàng</a>
+            <a class="collapse-item" href="<?php echo BASE_URL; ?>Account/list.php">Tài khoản</a>
+            <a class="collapse-item" href="<?php echo BASE_URL; ?>Category/list.php">Category</a>
         </div>
     </div>
 </li>

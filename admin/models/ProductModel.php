@@ -9,12 +9,27 @@ class ProductModel
     {
         $this->db = new Database();
     }
-    public function getAllProducts()
+    public function getAllProducts($page, $limit)
     {
+        $page = (int)$page > 0 ? (int)$page : 1;
+        $offset = ($page - 1) * $limit;
+        $total = $this->getTotalProducts();
         $sql = "SELECT products.*, categories.name as category_name FROM products
                 JOIN categories
-                ON products.category_id = categories.category_id";
-        return $this->db->getData($sql);
+                ON products.category_id = categories.category_id LIMIT ?, ?";
+        $parameters = [$offset, $limit];
+        $typeParams = "ii";
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return [
+            'total' => (int)$total,
+            'items' => $results
+        ];
+    }
+    public function getTotalProducts()
+    {
+        $sql = "SELECT COUNT(*) AS total_count FROM products";
+        $results = $this->db->getData($sql);
+        return $results[0]['total_count'] ?? 0;
     }
     public function insertProduct($product_name, $product_price, $product_image, $category_id, $stock, $views, $sold)
     {
@@ -37,12 +52,28 @@ class ProductModel
         $typeParams = "i";
         return $this->db->executeData($sql, $parameters, $typeParams);
     }
-    public function searchProductByName($product_name)
+    public function searchProductByName($product_name, $page, $limit)
     {
-        $sql = "SELECT * FROM products WHERE name LIKE ?";
+        
+        $page = (int)$page > 0 ? (int)$page : 1;
+        $offset = ($page - 1) * $limit;
+        $total = $this->getTotalSearchProduct($product_name);
+        $sql = "SELECT * FROM products WHERE name LIKE ? LIMIT ?, ?";
+        $parameters = ["%$product_name%", $offset, $limit];
+        $typeParams = "sii";
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return [
+            'total' => (int)$total,
+            'items' => $results
+        ];
+    }
+    public function getTotalSearchProduct($product_name)
+    {
+        $sql = "SELECT COUNT(*) AS total_count FROM products WHERE name LIKE ?";
         $parameters = ["%$product_name%"];
         $typeParams = "s";
-        return $this->db->getData($sql, $parameters, $typeParams);
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return $results[0]['total_count'];
     }
     public function getProductById($product_id)
     {

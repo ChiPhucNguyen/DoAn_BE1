@@ -8,7 +8,7 @@
             $this->db = new Database();
         }
             // paginate
-            function get_paginate($url, $total, $limit, $page, $offset)
+            function get_paginate($url, $total, $limit, $page, $offset = 4)
             {
                 if ($total <= 0) {
                     return "";
@@ -46,7 +46,7 @@
                 return $links;
         }
             
-        function print_paginate($url, $total, $limit, $page, $offset)
+        function print_paginate($url, $total, $limit, $page, $offset = 4)
         {
             echo "<div class='btn'>";
             echo $this->get_paginate($url, $total, $limit, $page, $offset);

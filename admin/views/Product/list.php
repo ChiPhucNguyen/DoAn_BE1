@@ -2,8 +2,10 @@
 <?php
     session_start();
     require_once '../../models/UserModel.php';
-    require_once '../../models/productModel.php';
+    require_once '../../models/ProductModel.php';
+    require_once '../../models/PaginationModel.php';
     $userModel = new UserModel();
+    $paginationModel = new PaginationModel();
     if (!isset($_SESSION['user_id'])) {
         header("Location: ../login.php");
         exit;
@@ -17,14 +19,18 @@
         }
     }
     $productModel = new ProductModel();
-    $products = $productModel->getAllproducts();
-    if($_SERVER['REQUEST_METHOD'] == 'GET')
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
+    $limit = 1;
+    if(isset($_GET['search']))
     {
-        if(isset($_GET['search']))
-        {
-            $products = $productModel->searchProductByName($_GET['search']);
-        }
+        $products = $productModel->searchProductByName($_GET['search'], $page, $limit);
     }
+    else
+    {
+        $products = $productModel->getAllProducts($page, $limit);
+    }
+    $productsTotal = $products['total'];
+    $products = $products['items'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,6 +145,10 @@
                                ?>
                             </tbody>
                         </table>
+                        <?php
+                             $url = $_SERVER['REQUEST_URI'];
+                             $paginationModel->print_paginate($url, $productsTotal, $limit, $page);
+                        ?>
                     </div>
                 </div>
             </div>

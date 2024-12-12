@@ -9,10 +9,25 @@ class CategoryModel
     {
         $this->db = new Database();
     }
-    public function getAllCategories()
+    public function getAllCategories($page, $limit)
     {
-        $sql = "SELECT * FROM categories";
-        return $this->db->getData($sql);
+        $total = $this->getTotalCategories();
+        $page = (int)$page > 0 ? (int)$page : 1;
+        $offset = ($page - 1) * $limit;
+        $sql = "SELECT * FROM categories LIMIT ?, ?";
+        $parameters = [$offset, $limit];
+        $typeParams = "ii";
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return [
+            'total' => (int)$total,
+            'items' => $results
+        ];
+    }
+    public function getTotalCategories()
+    {
+        $sql = "SELECT COUNT(*) AS total_count FROM categories";
+        $results = $this->db->getData($sql);
+        return $results[0]['total_count'] ?? 0;
     }
     public function insertCategory($category_name)
     {
@@ -35,12 +50,24 @@ class CategoryModel
         $typeParams = "i";
         return $this->db->executeData($sql, $parameters, $typeParams);
     }
-    public function searchCategoryByName($category_name)
+    public function searchCategoryByName($category_name, $page, $limit)
     {
-        $sql = "SELECT * FROM categories WHERE name LIKE ?";
-        $parameters = ["%$category_name%"];
+        
+        $total = $this->getTotalSearchCategory($category_name);
+        $page = (int)$page > 0 ? (int)$page : 1;
+        $offset = ($page - 1) * $limit;
+        $sql = "SELECT * FROM categories WHERE name LIKE ? LIMIT ?, ?";
+        $parameters = ["%$category_name%", $offset, $limit];
         $typeParams = "s";
         return $this->db->getData($sql, $parameters, $typeParams);
+    }
+    public function getTotalSearchCategory($category_name)
+    {
+        $sql = "SELECT COUNT(*) AS total_count FROM categories WHERE name LIKE ?";
+        $parameters = ["%$category_name%"];
+        $typeParams = "s";
+        $results = $this->db->getData($sql, $parameters, $typeParams);
+        return $results[0]['total_count'] ?? 0;
     }
     public function getCategoryById($category_id)
     {

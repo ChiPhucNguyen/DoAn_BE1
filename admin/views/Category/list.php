@@ -3,7 +3,9 @@
     session_start();
     require_once '../../models/UserModel.php';
     require_once '../../models/CategoryModel.php';
+    require_once '../../models/PaginationModel.php';
     $userModel = new UserModel();
+    $paginationModel = new PaginationModel();
     if (!isset($_SESSION['user_id'])) {
         header("Location: ../login.php");
         exit;
@@ -17,11 +19,18 @@
         }
     }
     $categoryModel = new CategoryModel();
-    $categories = $categoryModel->getAllCategories();
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $limit = 1;
     if(isset($_GET['search']))
     {
-        $categories = $categoryModel->searchCategoryByName($_GET['search']);
+        $categories = $categoryModel->searchCategoryByName($_GET['search'], $page, $limit);
     }
+    else
+    {
+        $categories = $categoryModel->getAllCategories($page, $limit);
+    }
+    $categoriesTotal = $categories['total'];
+    $categories = $categories['items'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -128,6 +137,10 @@
                                ?>
                             </tbody>
                         </table>
+                        <?php
+                            $url = $_SERVER['REQUEST_URI'];
+                            $paginationModel->print_paginate($url, $categoriesTotal, $limit, $page);
+                        ?>
                     </div>
                 </div>
             </div>

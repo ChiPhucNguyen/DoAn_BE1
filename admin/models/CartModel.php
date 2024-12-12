@@ -85,8 +85,11 @@
             $typeParams = "i";
             return $this->db->executeData($sql, $parameters, $typeParams);
         }
-        public function searchItemInCart($product_name)
+        public function searchItemInCart($product_name, $page, $limit = 1)
         {
+            $page = (int)$page > 0 ? (int)$page : 1;
+            $offset = ($page - 1) * $limit;
+            $total = $this->getTotalSearchItemInCart($product_name);
             $sql = "SELECT cart_items.cart_item_id AS cart_item_id, 
                                 cart_items.cart_id AS cart_id,
                                 cart_items.quantity AS quantity,
@@ -101,10 +104,26 @@
                         ON cart_items.cart_id = carts.cart_id
                     JOIN users 
                         ON carts.user_id = users.user_id
+                    WHERE products.name LIKE ? LIMIT ?, ?";
+            $parameters = ["%$product_name%", $page, $limit];
+            $typeParams = "s";
+            $results = $this->db->getData($sql, $parameters, $typeParams);
+            return [
+                'total' => (int)$total,
+                'items' => $results
+            ];
+        }
+        public function getTotalSearchItemInCart($product_name)
+        {
+            $sql = "SELECT COUNT(*) AS total
+                    FROM cart_items
+                    JOIN products 
+                        ON cart_items.product_id = products.product_id
                     WHERE products.name LIKE ?";
             $parameters = ["%$product_name%"];
             $typeParams = "s";
-            return $this->db->getData($sql, $parameters, $typeParams);
+            $results = $this->db->getData($sql, $parameters, $typeParams);
+            return $results[0]['total'];
         }
         public function getAllUserCart()
         {
