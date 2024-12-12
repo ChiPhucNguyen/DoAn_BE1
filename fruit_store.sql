@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 28, 2024 lúc 05:48 AM
+-- Thời gian đã tạo: Th12 12, 2024 lúc 06:08 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.0.30
+-- Phiên bản PHP: 7.3.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,8 +39,8 @@ CREATE TABLE `carts` (
 --
 
 INSERT INTO `carts` (`cart_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(1, 5, '2024-11-27 21:15:07', '2024-11-27 21:15:07'),
-(2, 5, '2024-11-27 23:28:09', '2024-11-27 23:28:09');
+(4, 5, '2024-11-28 12:04:01', '2024-11-28 12:04:01'),
+(5, 26, '2024-12-12 11:10:32', '2024-12-12 11:10:32');
 
 -- --------------------------------------------------------
 
@@ -61,9 +61,11 @@ CREATE TABLE `cart_items` (
 --
 
 INSERT INTO `cart_items` (`cart_item_id`, `cart_id`, `product_id`, `quantity`, `price`) VALUES
-(12, 1, 2, 1, 0.00),
-(13, 1, 3, 1, 0.00),
-(14, 1, 4, 1, 0.00);
+(18, 4, 3, 3, 0.00),
+(27, 4, 1, 12, 0.00),
+(28, 4, 1, 123, 0.00),
+(29, 5, 2, 2, 0.00),
+(30, 5, 3, 1, 0.00);
 
 -- --------------------------------------------------------
 
@@ -161,7 +163,7 @@ INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `stock`, `
 (3, 'Táo Mỹ', 'Táo đỏ giòn ngọt nhập khẩu từ Mỹ', 70000.00, 80, 600, 300, 1, './img/product/product-8.jpg', '2024-11-26 13:18:16'),
 (4, 'Nho Úc', 'Nho xanh không hạt, ngọt và mọng nước', 120000.00, 50, 700, 250, 1, './img/product/product-4.jpg', '2024-11-26 13:18:16'),
 (5, 'Xoài Cát Hòa Lộc', 'Xoài cát thơm ngọt nổi tiếng từ miền Tây', 60000.00, 200, 800, 400, 1, './img/product/product-6.jpg', '2024-11-26 13:18:16'),
-(6, 'Thịt bò', 'Thịt bò Mỹ', 80000.00, 70, 300, 100, 3, './img/product/product-1.jpg', '2024-11-26 13:18:16');
+(6, 'Thịt bò', 'Thịt bò Mỹ', 80000.00, 70, 300, 100, 3, './img/feature-1.jpg', '2024-11-26 13:18:16');
 
 -- --------------------------------------------------------
 
@@ -176,18 +178,17 @@ CREATE TABLE `users` (
   `email` varchar(100) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `address` text DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
+  `created_at` datetime DEFAULT current_timestamp(),
+  `role` varchar(30) NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `phone`, `address`, `created_at`) VALUES
-(1, 'admin', '1234567', 'admin@gmail.com', NULL, NULL, '2024-11-27 01:21:20'),
-(3, 'admin123', '1234567', NULL, NULL, NULL, '2024-11-27 01:21:41'),
-(4, 'admin1234', '1234567', NULL, NULL, NULL, '2024-11-27 01:21:53'),
-(5, 'chautinhngu', '0169073249asD@', NULL, NULL, NULL, '2024-11-27 19:42:27');
+INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `phone`, `address`, `created_at`, `role`) VALUES
+(5, 'letanphuoc', '123456789asD@', NULL, NULL, NULL, '2024-11-27 19:42:27', 'user'),
+(26, 'admin', 'admin', NULL, NULL, NULL, '2024-12-12 11:07:30', 'admin');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -253,19 +254,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
@@ -283,13 +284,13 @@ ALTER TABLE `order_details`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
