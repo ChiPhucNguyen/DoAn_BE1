@@ -27,7 +27,7 @@
     }
     else
     {
-        $categories = $categoryModel->getAllCategories($page, $limit);
+        $categories = $categoryModel->getCategories($page, $limit);
     }
     $categoriesTotal = $categories['total'];
     $categories = $categories['items'];

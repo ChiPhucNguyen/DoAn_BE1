@@ -27,7 +27,7 @@
     }
     else
     {
-        $products = $productModel->getAllProducts($page, $limit);
+        $products = $productModel->getProducts($page, $limit);
     }
     $productsTotal = $products['total'];
     $products = $products['items'];

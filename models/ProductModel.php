@@ -77,5 +77,12 @@
             $products = $this->db->getData($sql, $parameters, $typeParams);
             return $products;
         }
+        function getRelatedProducts($categoryId, $limit)
+        {
+            $sql = "SELECT * FROM products WHERE category_id = ? LIMIT ?";
+            $parameters = [$categoryId, $limit];
+            $typeParams = "ii";
+            return $this->db->getData($sql, $parameters, $typeParams);
+        }
     }
 ?>

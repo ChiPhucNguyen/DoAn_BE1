@@ -103,7 +103,7 @@ class UserModel
         $parameters = [$user_id];
         $typeParams = "i";
         $results = $this->db->getData($sql, $parameters, $typeParams);
-        return $results;
+        return $results[0];
     }
     public function searchUserByName($username, $page, $limit = 1)
     {

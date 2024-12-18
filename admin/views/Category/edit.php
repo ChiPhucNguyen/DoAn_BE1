@@ -3,7 +3,7 @@
     session_start();
     require_once '../../models/UserModel.php';
     require_once '../../models/CategoryModel.php';
-
+    
     $userModel = new UserModel();
 
     if (!isset($_SESSION['user_id'])) {

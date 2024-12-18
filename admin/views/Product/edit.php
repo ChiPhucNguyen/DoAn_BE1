@@ -118,6 +118,7 @@
             <div class="mb-3">
                 <label for="formFile" class="form-label">Upload Image</label>
                 <input name="imageUpload" class="form-control" type="file" id="formFile" value >
+                <img src="../../../<?php echo $product['img_url']?>" alt="">
             </div>
             <input type="text" name="price" class="form-control form-control-user mb-3" placeholder="Enter Price." value="<?php echo  $product['price']?>" >
             <input type="text" name="stock" class="form-control form-control-user mb-3" placeholder="Enter Stock." value="<?php echo  $product['stock']?>" >

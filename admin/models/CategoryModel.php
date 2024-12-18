@@ -9,7 +9,12 @@ class CategoryModel
     {
         $this->db = new Database();
     }
-    public function getAllCategories($page, $limit)
+    public function getAllCategories()
+    {
+        $sql = "SELECT * FROM categories";
+        return $this->db->getData($sql);
+    }
+    public function getCategories($page = 1, $limit)
     {
         $total = $this->getTotalCategories();
         $page = (int)$page > 0 ? (int)$page : 1;

@@ -9,7 +9,12 @@ class ProductModel
     {
         $this->db = new Database();
     }
-    public function getAllProducts($page, $limit)
+    public function getAllProducts()
+    {
+        $sql = "SELECT * FROM products";
+        return $this->db->getData($sql);
+    }
+    public function getProducts($page, $limit)
     {
         $page = (int)$page > 0 ? (int)$page : 1;
         $offset = ($page - 1) * $limit;
