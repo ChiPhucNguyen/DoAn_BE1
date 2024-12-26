@@ -19,7 +19,9 @@ class CategoryModel
         $total = $this->getTotalCategories();
         $page = (int)$page > 0 ? (int)$page : 1;
         $offset = ($page - 1) * $limit;
-        $sql = "SELECT * FROM categories LIMIT ?, ?";
+        $sql = "SELECT * FROM categories 
+        ORDER BY created_at DESC
+        LIMIT ?, ?";
         $parameters = [$offset, $limit];
         $typeParams = "ii";
         $results = $this->db->getData($sql, $parameters, $typeParams);

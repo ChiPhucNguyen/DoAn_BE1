@@ -54,6 +54,8 @@
             <a class="collapse-item" href="<?php echo BASE_URL; ?>Cart/list.php">Giỏ hàng</a>
             <a class="collapse-item" href="<?php echo BASE_URL; ?>Account/list.php">Tài khoản</a>
             <a class="collapse-item" href="<?php echo BASE_URL; ?>Category/list.php">Category</a>
+            <a class="collapse-item" href="<?php echo BASE_URL; ?>Order/list.php">Đơn hàng</a>
+            <a class="collapse-item" href="<?php echo BASE_URL; ?>Config/index.php">Config Website</a>
         </div>
     </div>
 </li>

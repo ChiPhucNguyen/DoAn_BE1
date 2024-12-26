@@ -21,7 +21,9 @@ class ProductModel
         $total = $this->getTotalProducts();
         $sql = "SELECT products.*, categories.name as category_name FROM products
                 JOIN categories
-                ON products.category_id = categories.category_id LIMIT ?, ?";
+                ON products.category_id = categories.category_id
+                ORDER BY products.created_at DESC 
+                LIMIT ?, ?";
         $parameters = [$offset, $limit];
         $typeParams = "ii";
         $results = $this->db->getData($sql, $parameters, $typeParams);

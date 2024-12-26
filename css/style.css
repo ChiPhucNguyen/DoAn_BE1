@@ -3466,3 +3466,13 @@ ol {
 		font-size: 24px;
 	}
 }
+.order-select
+{
+	cursor: pointer;
+	border-radius: 10px;
+}
+.order-select:hover
+{
+	background-color: rgba(14 32, 105, 0.1);
+	border-radius: 5px;
+}

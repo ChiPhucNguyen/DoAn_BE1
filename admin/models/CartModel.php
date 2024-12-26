@@ -28,7 +28,8 @@
                         ON cart_items.cart_id = carts.cart_id
                     JOIN users 
                         ON carts.user_id = users.user_id
-                    LIMIT ?, ?";
+                    LIMIT ?, ?
+                    ";
             $parameters = [$offset, $limit];
             $typeParams = "ii";
             $results = $this->db->getData($sql, $parameters, $typeParams);

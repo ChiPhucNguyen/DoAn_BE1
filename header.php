@@ -1,7 +1,10 @@
 <?php
     session_start();
     require_once "./models/UserModel.php";
+    require_once "./admin/models/ConfigModel.php";
+    $configModel = new ConfigModel();
     $userModel = new UserModel();
+    $currentConfig = $configModel->getAllConfig();
 
     $isLoggedIn = $userModel->isUserLoggedIn();
     $username = $userModel->getUsername();
@@ -110,7 +113,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.php"><img src="img/logo.png" alt=""></a>
+                        <a href="./index.php"><img src="<?php echo $currentConfig['logo'] ?>" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -149,6 +152,10 @@
                                         <a class="dropdown-item" href="#">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Profile
+                                        </a>
+                                        <a class="dropdown-item" href="./order.php">
+                                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                            Giỏ hàng
                                         </a>
                                         <a class="dropdown-item" href="./logout.php">
                                             <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

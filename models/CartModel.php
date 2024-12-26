@@ -42,7 +42,15 @@
             $typeParams = "i";
             return $this->db->getData($sql, $parameters, $typeParams);
         }
-
+        public function getCartItemsByCartAndUserId($cartId, $userId)
+        {
+            $sql = "SELECT cart_items.*, products.* FROM cart_items
+                    INNER JOIN products ON cart_items.product_id = products.product_id
+                    WHERE cart_items.cart_id = ?, carts.user_id = ?";
+            $parameters = [$cartId, $userId];
+            $typeParams = "ii";
+            return $this->db->getData($sql, $parameters, $typeParams);
+        }
 
         public function addItemToCart($userId, $productId, $quantity)
         {

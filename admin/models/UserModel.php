@@ -136,5 +136,10 @@ class UserModel
         $typeParams = "ssssssi";
         return $this->db->executeData($sql, $parameters, $typeParams);
     }
+    public function getAllUsersForOrder()
+    {
+        $sql = "SELECT * FROM users";
+        return $this->db->getData($sql);
+    }
 
 }
