@@ -77,6 +77,6 @@
     <script>
         function redirectToDetailPage(orderId) {
             // Chuyển hướng tới trang chi tiết đơn hàng
-            window.location.href = `/order_detail.php?orderId=${orderId}`;
+            window.location.href = `/store/order_detail.php?orderId=${orderId}`;
         }
     </script>

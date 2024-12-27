@@ -2,9 +2,9 @@
     class Database
     {
         private $host = "localhost";
-        private $username = "root";
-        private $password = "";
-        private $dbName = "fruit_store";
+        private $username = "u552874732_ltphuoc";
+        private $password = "G*9b^9>Mr";
+        private $dbName = "u552874732_ltphuoc";
         private $conn;
         public function __construct()
         {
